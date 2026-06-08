@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/about", "/contact", "/verify", "/register", "/login", "/forgot-password",
-                                "/css/**", "/js/**", "/webjars/**", "/api/register", "/api/login", "/api/certificates/verify/**").permitAll()
+                                "/css/**", "/js/**", "/image/**", "/webjars/**", "/api/register", "/api/login", "/api/certificates/verify/**").permitAll()
                         .requestMatchers("/admin/**", "/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(login -> login
