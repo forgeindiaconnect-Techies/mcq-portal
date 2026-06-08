@@ -1,0 +1,18 @@
+{
+  "info": {
+    "name": "FIC Portal APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {"name": "Register User", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "url": "{{baseUrl}}/api/register", "body": {"mode": "raw", "raw": "{\"fullname\":\"Student One\",\"email\":\"student@example.com\",\"password\":\"secret123\",\"confirmPassword\":\"secret123\"}"}}},
+    {"name": "Login User", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "url": "{{baseUrl}}/api/login", "body": {"mode": "raw", "raw": "{\"email\":\"admin@fic.com\",\"password\":\"admin123\"}"}}},
+    {"name": "Add Question", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "url": "{{baseUrl}}/api/admin/questions", "body": {"mode": "raw", "raw": "{\"question\":\"Sample?\",\"optionA\":\"A\",\"optionB\":\"B\",\"optionC\":\"C\",\"optionD\":\"D\",\"correctAnswer\":\"A\"}"}}},
+    {"name": "Get Questions", "request": {"method": "GET", "url": "{{baseUrl}}/api/questions"}},
+    {"name": "Submit Quiz", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "url": "{{baseUrl}}/api/quiz/submit", "body": {"mode": "raw", "raw": "{\"userId\":1,\"answers\":{\"1\":\"A\",\"2\":\"C\"}}"}}},
+    {"name": "Get Results", "request": {"method": "GET", "url": "{{baseUrl}}/api/results"}},
+    {"name": "Get Leaderboard", "request": {"method": "GET", "url": "{{baseUrl}}/api/leaderboard"}},
+    {"name": "Generate Certificate", "request": {"method": "POST", "url": "{{baseUrl}}/api/certificates/generate/1"}},
+    {"name": "Verify Certificate", "request": {"method": "GET", "url": "{{baseUrl}}/api/certificates/verify/FIC-2026-0001"}}
+  ],
+  "variable": [{"key": "baseUrl", "value": "http://localhost:8080"}]
+}

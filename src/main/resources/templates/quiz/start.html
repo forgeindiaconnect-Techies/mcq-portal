@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Start Quiz')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: nav}"></div>
+<main class="quiz-layout">
+    <form id="quizForm" th:action="@{/quiz/submit}" method="post" th:data-duration="${durationMinutes}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <input type="hidden" name="category" th:value="${category}">
+        <div class="quiz-topbar">
+            <div>
+                <strong th:text="${category} + ' MCQ Examination'">MCQ Examination</strong>
+                <div class="progress mt-2"><div id="quizProgress" class="progress-bar bg-success" style="width:0%"></div></div>
+            </div>
+            <div id="timer" class="timer">00:00</div>
+        </div>
+        <div th:if="${#lists.isEmpty(questions)}" class="alert alert-warning">No questions are available. Please contact the administrator.</div>
+        <section class="question-card" th:each="question, iter : ${questions}" th:classappend="${iter.index == 0} ? ' active'" th:data-index="${iter.index}">
+            <p class="question-count" th:text="'Question ' + ${iter.count} + ' of ' + ${#lists.size(questions)}">Question</p>
+            <h2 th:text="${question.question}">Question text</h2>
+            <div class="options">
+                <label><input type="radio" th:name="'answer_' + ${question.id}" value="A"> <span th:text="${question.optionA}">A</span></label>
+                <label><input type="radio" th:name="'answer_' + ${question.id}" value="B"> <span th:text="${question.optionB}">B</span></label>
+                <label><input type="radio" th:name="'answer_' + ${question.id}" value="C"> <span th:text="${question.optionC}">C</span></label>
+                <label><input type="radio" th:name="'answer_' + ${question.id}" value="D"> <span th:text="${question.optionD}">D</span></label>
+            </div>
+        </section>
+        <div class="quiz-actions" th:if="${!#lists.isEmpty(questions)}">
+            <button class="btn btn-outline-secondary" type="button" id="prevBtn"><i class="bi bi-arrow-left"></i> Previous</button>
+            <button class="btn btn-primary" type="button" id="nextBtn">Next <i class="bi bi-arrow-right"></i></button>
+            <button class="btn btn-success d-none" type="submit" id="submitBtn"><i class="bi bi-check-circle"></i> Submit</button>
+        </div>
+    </form>
+    <div id="malpracticeWarning" class="malpractice-warning d-none" role="alert" aria-live="assertive">
+        <div class="malpractice-warning-box">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <h2>Warning</h2>
+            <p id="malpracticeWarningText">Malpractice activity detected.</p>
+            <strong id="malpracticeWarningCount">Warning 1 of 3</strong>
+            <small>Please return to the quiz. This warning will close in 5 seconds.</small>
+        </div>
+    </div>
+</main>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script><script th:src="@{/js/app.js}"></script><script th:src="@{/js/quiz.js}"></script>
+</body>
+</html>

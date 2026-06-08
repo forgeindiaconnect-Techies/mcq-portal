@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Certificate Verification')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: nav}"></div>
+<main class="container py-5 content-narrow">
+    <h1>Certificate Verification</h1>
+    <form class="card-form mb-4" th:action="@{/verify}" method="get">
+        <label class="form-label">Certificate ID</label>
+        <div class="input-group">
+            <input class="form-control" name="certificateId" placeholder="FIC-2026-0001" required>
+            <button class="btn btn-primary" type="submit">Verify</button>
+        </div>
+    </form>
+    <div class="card-form" th:if="${certificate}">
+        <h2 class="text-success">Certificate Verified</h2>
+        <p><strong>Student Name:</strong> <span th:text="${certificate.studentName}"></span></p>
+        <p><strong>Percentage:</strong> <span th:text="${certificate.percentage} + '%'"></span></p>
+        <p><strong>Issue Date:</strong> <span th:text="${certificate.issueDate}"></span></p>
+        <p><strong>Status:</strong> <span th:text="${certificate.status}"></span></p>
+    </div>
+    <div class="alert alert-danger" th:if="${notFound}">Certificate Not Found</div>
+</main>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script><script th:src="@{/js/app.js}"></script>
+</body>
+</html>

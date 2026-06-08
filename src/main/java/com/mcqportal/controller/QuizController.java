@@ -1,0 +1,81 @@
+package com.mcqportal.controller;
+
+import com.mcqportal.entity.User;
+import com.mcqportal.repository.QuestionRepository;
+import com.mcqportal.repository.ResultRepository;
+import com.mcqportal.repository.UserRepository;
+import com.mcqportal.service.QuizService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Controller
+public class QuizController extends ControllerSupport {
+    private final QuestionRepository questionRepository;
+    private final ResultRepository resultRepository;
+    private final QuizService quizService;
+
+    @Value("${fic.quiz.duration-minutes:30}")
+    private int durationMinutes;
+
+    public QuizController(UserRepository userRepository, QuestionRepository questionRepository,
+                          ResultRepository resultRepository, QuizService quizService) {
+        super(userRepository);
+        this.questionRepository = questionRepository;
+        this.resultRepository = resultRepository;
+        this.quizService = quizService;
+    }
+
+    @GetMapping("/quiz/start")
+    public String start(@RequestParam(required = false) String category, Model model) {
+        String selectedCategory = (category == null || category.isBlank()) ? "Cybersecurity" : category;
+        model.addAttribute("questions", questionRepository.findTop50ByCategoryIgnoreCaseOrderByIdAsc(selectedCategory));
+        model.addAttribute("category", selectedCategory);
+        model.addAttribute("durationMinutes", durationMinutes);
+        return "quiz/start";
+    }
+
+    @PostMapping("/quiz/submit")
+    public String submit(Authentication authentication, @RequestParam Map<String, String> requestParams) {
+        User user = currentUser(authentication);
+        Map<Long, String> answers = new HashMap<>();
+        requestParams.forEach((key, value) -> {
+            if (key.startsWith("answer_")) {
+                answers.put(Long.parseLong(key.substring(7)), value);
+            }
+        });
+        var result = quizService.submit(user, answers, requestParams.get("category"));
+        return "redirect:/results/" + result.getId();
+    }
+
+    @GetMapping("/results")
+    public String results(Authentication authentication, Model model) {
+        User user = currentUser(authentication);
+        model.addAttribute("results", resultRepository.findByUserOrderByExamDateDesc(user));
+        return "results/history";
+    }
+
+    @GetMapping("/results/{id}")
+    public String result(@org.springframework.web.bind.annotation.PathVariable Long id, Authentication authentication, Model model) {
+        User user = currentUser(authentication);
+        var result = resultRepository.findById(id).orElseThrow();
+        if (!result.getUser().getId().equals(user.getId()) && user.getRole() != com.mcqportal.entity.Role.ROLE_ADMIN) {
+            throw new org.springframework.security.access.AccessDeniedException("Access denied");
+        }
+        model.addAttribute("result", result);
+        return "results/detail";
+    }
+
+    @GetMapping("/leaderboard")
+    public String leaderboard(Model model) {
+        model.addAttribute("results", resultRepository.findTop10ByOrderByScoreDescPercentageDescExamDateAsc());
+        return "results/leaderboard";
+    }
+}
