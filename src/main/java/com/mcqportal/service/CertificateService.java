@@ -86,7 +86,7 @@ public Certificate generateForResult(Result result) {
             // Canvas drawing for background and concentric border outline
             float pageWidth = PageSize.A4.rotate().getWidth();
             float pageHeight = PageSize.A4.rotate().getHeight();
-            PdfContentByte canvas = writer.getDirectContent();
+            PdfContentByte canvas = writer.getDirectContentUnder();
             
             canvas.saveState();
             // Fill background with warm parchment tint #fffdf8 (255, 253, 248)
