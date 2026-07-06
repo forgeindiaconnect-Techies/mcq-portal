@@ -8,12 +8,12 @@ services:
       - key: SPRING_PROFILES_ACTIVE
         value: render
       - key: DATABASE_HOST
-        value: gondola.proxy.rlwy.net
+        value: dpg-d8j4nie7r5hc73dgdqi0-a.oregon-postgres.render.com
       - key: DATABASE_PORT
-        value: "45898"
+        value: "5432"
       - key: DATABASE_NAME
-        value: railway
+        value: fic_portal_nr5q
       - key: DATABASE_USERNAME
-        value: postgres
+        value: fic_portal_nr5q_user
       - key: DATABASE_PASSWORD
         sync: false
