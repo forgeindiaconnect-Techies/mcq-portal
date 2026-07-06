@@ -158,7 +158,7 @@ body.dark-mode .sidebar { background: #182132; }
     display: block;
 }
 .cert-ribbon { position: absolute; top: 1.25rem; left: 50%; transform: translateX(-50%); color: #64748b; font-size: .8rem; font-weight: 800; letter-spacing: 0; text-transform: uppercase; }
-.cert-logo { display: inline-flex; align-items: center; gap: .75rem; font-size: 1.6rem; font-weight: 900; color: #1746a2; margin-top: 1.25rem; text-transform: uppercase; }
+.cert-logo { display: inline-flex; align-items: center; gap: .75rem; font-size: 1.6rem; font-weight: 900; color: #1746a2; margin-top: 1.25rem; text-transform: uppercase; white-space: nowrap; }
 .cert-logo img { width: 62px; height: 62px; object-fit: contain; border-radius: 50%; border: 1px solid #d8c786; background: transparent; }
 .certificate-sheet h1 { margin-top: 2rem; font-weight: 900; color: #102e68; }
 .certificate-sheet h2 { font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 900; color: #16835b; margin: 1rem 0; }

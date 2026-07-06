@@ -131,7 +131,7 @@ public Certificate generateForResult(Result result) {
 
             // 2. Centered Logo and Brand Name Table
             PdfPTable logoTable = new PdfPTable(2);
-            logoTable.setWidthPercentage(40);
+            logoTable.setWidthPercentage(55);
             logoTable.setHorizontalAlignment(Element.ALIGN_CENTER);
             logoTable.setSpacingBefore(8);
             logoTable.setSpacingAfter(8);
