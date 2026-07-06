@@ -8,28 +8,12 @@ services:
       - key: SPRING_PROFILES_ACTIVE
         value: render
       - key: DATABASE_HOST
-        fromDatabase:
-          name: fic-portal-db
-          property: host
+        value: gondola.proxy.rlwy.net
       - key: DATABASE_PORT
-        fromDatabase:
-          name: fic-portal-db
-          property: port
+        value: "45898"
       - key: DATABASE_NAME
-        fromDatabase:
-          name: fic-portal-db
-          property: database
+        value: railway
       - key: DATABASE_USERNAME
-        fromDatabase:
-          name: fic-portal-db
-          property: user
+        value: postgres
       - key: DATABASE_PASSWORD
-        fromDatabase:
-          name: fic-portal-db
-          property: password
-
-databases:
-  - name: fic-portal-db
-    plan: free
-    databaseName: fic_portal
-    postgresMajorVersion: "16"
+        sync: false
