@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Certificates')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: nav}"></div>
+<div class="app-shell">
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+    <main class="app-main">
+        <h1>Certificates</h1>
+        <div class="row g-3">
+            <div class="col-lg-4" th:each="certificate : ${certificates}">
+                <div class="certificate-mini">
+                    <strong th:text="${certificate.certificateId}">FIC-2026-0001</strong>
+                    <h2 th:text="${certificate.studentName}">Student</h2>
+                    <p th:text="${certificate.percentage} + '% - PASS'">PASS</p>
+                    <a class="btn btn-sm btn-success" th:href="@{/certificates/{id}(id=${certificate.id})}">Open</a>
+                </div>
+            </div>
+            <div class="col-12" th:if="${#lists.isEmpty(certificates)}">
+                <div class="alert alert-warning">No certificates yet. Pass an exam to generate one automatically.</div>
+            </div>
+        </div>
+    </main>
+</div>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script><script th:src="@{/js/app.js}"></script>
+</body>
+</html>

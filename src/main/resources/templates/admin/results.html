@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Admin Results')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: nav}"></div>
+<div class="app-shell"><div th:replace="~{fragments/layout :: adminSidebar}"></div><main class="app-main">
+    <h1>Result Management</h1>
+    <form class="search-row" method="get"><input class="form-control" name="q" th:value="${q}" placeholder="Search results"><button class="btn btn-primary">Search</button></form>
+    <div class="table-responsive card-form"><table class="table align-middle"><thead><tr><th>Student</th><th>Quiz</th><th>Date</th><th>Score</th><th>Percentage</th><th>Status</th><th>Malpractice</th></tr></thead><tbody>
+    <tr th:each="result : ${results.content}"><td th:text="${result.user.fullname}"></td><td th:text="${result.category ?: 'General'}"></td><td th:text="${#temporals.format(result.examDate, 'dd MMM yyyy HH:mm')}"></td><td th:text="${result.score} + '/' + ${result.totalQuestions}"></td><td th:text="${result.percentage} + '%'"></td><td><span class="badge" th:classappend="${result.status.name() == 'PASS'} ? ' bg-success' : ' bg-danger'" th:text="${result.status}"></span></td><td><span th:if="${result.malpracticeWarnings > 0}" class="badge bg-warning text-dark" th:text="${result.malpracticeWarnings} + ' warnings'"></span><small th:if="${result.malpracticeWarnings > 0}" class="d-block text-muted" th:text="${result.malpracticeReason}"></small><span th:unless="${result.malpracticeWarnings > 0}" class="text-muted">Clear</span></td></tr>
+    </tbody></table></div>
+</main></div>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script><script th:src="@{/js/app.js}"></script>
+</body>
+</html>

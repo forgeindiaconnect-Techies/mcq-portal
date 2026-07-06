@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Result Summary')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: nav}"></div>
+<main class="container py-5">
+    <div class="score-card">
+        <p class="eyebrow">Result Summary</p>
+        <h1 th:text="${result.user.fullname}">Student</h1>
+        <div class="status-pill" th:classappend="${result.status.name() == 'PASS'} ? ' pass' : ' fail'" th:text="${result.status}">PASS</div>
+        <div class="stats-grid mt-4">
+            <div class="stat-card text-stat"><span th:text="${result.category ?: 'General'}">Quiz</span><small>Quiz</small></div>
+            <div class="stat-card"><span th:text="${result.totalQuestions}">0</span><small>Total Questions</small></div>
+            <div class="stat-card"><span th:text="${result.attemptedQuestions}">0</span><small>Attempted</small></div>
+            <div class="stat-card"><span th:text="${result.correctAnswers}">0</span><small>Correct</small></div>
+            <div class="stat-card"><span th:text="${result.wrongAnswers}">0</span><small>Wrong</small></div>
+            <div class="stat-card"><span th:text="${result.score}">0</span><small>Score</small></div>
+            <div class="stat-card"><span th:text="${result.percentage} + '%'">0%</span><small>Percentage</small></div>
+        </div>
+        <div class="alert alert-warning mt-4" th:if="${result.malpracticeWarnings > 0 && !result.malpracticeDetected}" th:text="'Malpractice warnings recorded: ' + ${result.malpracticeWarnings}"></div>
+        <div class="alert alert-danger mt-4" th:if="${result.malpracticeDetected}" th:text="'This test was auto-submitted after ' + ${result.malpracticeWarnings} + ' malpractice warnings. You cannot attend this quiz again.'"></div>
+        <div class="alert alert-warning mt-4" th:if="${result.status.name() == 'FAIL'}">You are not eligible for certificate generation.</div>
+        <a th:if="${result.certificate != null}" class="btn btn-success mt-4" th:href="@{/certificates/{id}(id=${result.certificate.id})}">View Certificate</a>
+    </div>
+</main>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script><script th:src="@{/js/app.js}"></script>
+</body>
+</html>

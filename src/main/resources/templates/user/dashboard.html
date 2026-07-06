@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Dashboard')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: nav}"></div>
+<div class="app-shell">
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+    <main class="app-main">
+        <div class="welcome-band">
+            <div>
+                <p class="eyebrow">Student Dashboard</p>
+                <h1 th:text="'Welcome, ' + ${user.fullname}">Welcome</h1>
+            </div>
+            <a th:if="${!#lists.contains(malpracticeBlockedTopics, 'Cybersecurity')}" class="btn btn-warning" th:href="@{/quiz/start(category='Cybersecurity')}"><i class="bi bi-play-fill"></i> Start Quiz</a>
+            <button th:if="${#lists.contains(malpracticeBlockedTopics, 'Cybersecurity')}" class="btn btn-secondary" type="button" disabled><i class="bi bi-shield-lock"></i> Quiz Blocked</button>
+        </div>
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+        <div class="stats-grid">
+            <div class="stat-card"><span th:text="${totalQuizzes}">0</span><small>Total Quizzes</small></div>
+            <div class="stat-card"><span th:text="${attemptedQuizzes}">0</span><small>Attempted Quizzes</small></div>
+            <div class="stat-card"><span th:text="${latestResult == null ? 'N/A' : latestResult.score}">0</span><small>Latest Score</small></div>
+            <div class="stat-card"><span th:text="${latestResult == null ? 'N/A' : latestResult.percentage + '%'}">0%</span><small>Percentage</small></div>
+        </div>
+        <section class="topic-panel mt-4">
+            <div>
+                <p class="eyebrow">Choose Quiz Topic</p>
+                <h2>Advanced coding questions</h2>
+            </div>
+            <div class="topic-grid">
+                <a th:each="topic : ${quizTopics}" th:if="${!#lists.contains(malpracticeBlockedTopics, topic)}" th:href="@{/quiz/start(category=${topic})}" class="topic-tile">
+                    <i class="bi bi-code-square"></i>
+                    <span th:text="${topic}">Topic</span>
+                </a>
+                <span th:each="topic : ${quizTopics}" th:if="${#lists.contains(malpracticeBlockedTopics, topic)}" class="topic-tile disabled">
+                    <i class="bi bi-shield-lock"></i>
+                    <span th:text="${topic}">Topic</span>
+                </span>
+            </div>
+        </section>
+        <div class="action-grid mt-4">
+            <a th:href="@{/results}" class="action-tile"><i class="bi bi-clipboard-data"></i> View Results</a>
+            <a th:href="@{/certificates}" class="action-tile"><i class="bi bi-award"></i> View Certificates</a>
+            <a th:href="@{/profile}" class="action-tile"><i class="bi bi-person-gear"></i> Edit Profile</a>
+            <form th:action="@{/logout}" method="post" class="action-form">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <button class="action-tile w-100" type="submit"><i class="bi bi-box-arrow-right"></i> Logout</button>
+            </form>
+        </div>
+    </main>
+</div>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script><script th:src="@{/js/app.js}"></script>
+</body>
+</html>

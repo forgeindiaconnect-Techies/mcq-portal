@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('About')}"></head>
+<body>
+<div th:replace="~{fragments/layout :: nav}"></div>
+<main class="container py-5 content-narrow">
+    <h1>FIC TALENT EXAM</h1>
+    <p class="lead">FIC Talent exam is a full stack MCQ examination platform for secure assessments, instant scoring, and certificate verification.</p>
+    <div class="row g-3 mt-3">
+        <div class="col-md-4"><div class="feature-tile">Timed Exams</div></div>
+        <div class="col-md-4"><div class="feature-tile">Role Security</div></div>
+        <div class="col-md-4"><div class="feature-tile">PDF Certificates</div></div>
+    </div>
+</main>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script><script th:src="@{/js/app.js}"></script>
+</body>
+</html>
