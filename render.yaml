@@ -7,12 +7,8 @@ services:
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: render
-      - key: DATABASE_HOST
-        value: dpg-d8j4nie7r5hc73dgdqi0-a.oregon-postgres.render.com
-      - key: DATABASE_PORT
-        value: "5432"
-      - key: DATABASE_NAME
-        value: fic_portal_nr5q
+      - key: DATABASE_URL
+        value: jdbc:postgresql://dpg-d8j4nie7r5hc73dgdqi0-a.oregon-postgres.render.com:5432/fic_portal_nr5q?sslmode=require
       - key: DATABASE_USERNAME
         value: fic_portal_nr5q_user
       - key: DATABASE_PASSWORD
