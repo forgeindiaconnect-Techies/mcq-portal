@@ -7,10 +7,18 @@ services:
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: render
-      - key: DATABASE_URL
+      - key: DATABASE_HOST
         fromDatabase:
           name: fic-portal-db
-          property: connectionURI
+          property: host
+      - key: DATABASE_PORT
+        fromDatabase:
+          name: fic-portal-db
+          property: port
+      - key: DATABASE_NAME
+        fromDatabase:
+          name: fic-portal-db
+          property: database
       - key: DATABASE_USERNAME
         fromDatabase:
           name: fic-portal-db
